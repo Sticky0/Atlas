@@ -46,20 +46,20 @@ The firmware currently drives one coxa servo connected to GPIO 18. The servo swe
 The firmware is a PlatformIO project located in:
 
 ```text
-cplusplus/
+firmware/
 ```
 
 Build it with:
 
 ```bash
-cd cplusplus
+cd firmware
 pio run
 ```
 
 If `pio` is not in your PATH on Windows, use:
 
 ```bash
-cd cplusplus
+cd firmware
 /c/Users/isaac/.platformio/penv/Scripts/pio.exe run
 ```
 
@@ -67,7 +67,7 @@ cd cplusplus
 
 ```text
 atlas/
-├── cplusplus/
+├── firmware/
 │   ├── src/
 │   │   └── main.cpp          # ESP32 servo test firmware
 │   ├── platformio.ini        # PlatformIO configuration
