@@ -4,53 +4,93 @@ A 3D-printed hexapod robot, designed and built from scratch: mechanics, electron
 
 ## 📋 Description
 
-Atlas is a hexapod robot (6 legs) with 3 degrees of freedom per leg (coxa, femur, tibia — 18 servos total), controlled by an ESP32. The project is a full-stack engineering exercise: 3D-printed mechanical design, inverse kinematics, servo control, and gait pattern development.
+Atlas is a hexapod robot with 6 legs and 3 degrees of freedom per leg: coxa, femur, and tibia. That gives the robot 18 servos in total.
 
-Development follows an iterative approach: a single leg (mechanics + inverse kinematics) is validated first, before scaling up to the full robot.
+The project is being developed step by step. The current firmware validates basic servo control on an ESP32 before moving to full single-leg inverse kinematics and, later, complete gait control.
+
+## 🚀 Current status
+
+Current phase: **single-servo validation**.
+
+The firmware currently drives one coxa servo connected to GPIO 18. The servo sweeps smoothly between 45° and 135°, using a standard 50 Hz servo PWM signal.
 
 ## 🛠️ Hardware
 
 ### 3D Printing
+
 | Stage | Material | Reason |
 |-------|----------|--------|
-| Prototyping | PLA | Fast, cheap, easy to print for iterating on geometry |
-| Final build | ASA | Much higher mechanical, thermal, and UV resistance |
+| Prototyping | PLA | Fast, cheap, and easy to print while iterating on geometry |
+| Final build | ASA | Higher mechanical, thermal, and UV resistance |
 
 ### Electronics
+
 - **Microcontroller:** ESP32
-- **Servo driver:** PCA9685 (PWM control via I2C)
-- **Servos (prototype):** SG90 9G Micro Servo
-- **Servos (final build):** MG996R
-- **Power supply:** dedicated power source for the servos (separate from the ESP32, common ground) — needed to avoid brownouts from current spikes
+- **Current test servo:** SG90 9G Micro Servo
+- **Future servo driver:** PCA9685 PWM driver over I2C
+- **Final build servos:** MG996R
+- **Power supply:** dedicated power source for the servos, separated from the ESP32 power input, with common ground
 
-### Mechanical configuration
-- 6 legs × 3 servos (coxa / femur / tibia) = 18 total DOF
+### Current wiring
 
-## 🗺️ Roadmap
+| Servo wire | ESP32 |
+|------------|-------|
+| Signal | GPIO 18 |
+| V+ | 5V |
+| GND | GND |
 
-- [ ] Inverse kinematics for a single leg (3 DOF)
-- [ ] Mechanical prototype of one leg in PLA + SG90
-- [ ] Range of motion validation and control via PCA9685
-- [ ] Design and print all 6 legs
-- [ ] Full chassis assembly
-- [ ] Gait implementation (tripod / wave)
-- [ ] Migration to MG996R and reprint in ASA
-- [ ] Fine-tuning stability and power consumption
+> For real hardware, use an external servo power supply when the load increases. Do not power multiple servos directly from the ESP32.
+
+## 💻 Firmware
+
+The firmware is a PlatformIO project located in:
+
+```text
+cplusplus/
+```
+
+Build it with:
+
+```bash
+cd cplusplus
+pio run
+```
+
+If `pio` is not in your PATH on Windows, use:
+
+```bash
+cd cplusplus
+/c/Users/isaac/.platformio/penv/Scripts/pio.exe run
+```
 
 ## 📁 Project structure
 
-```
+```text
 atlas/
-├── firmware/          # ESP32 code
-├── cad/                # 3D models (printable parts)
-├── docs/               # Documentation, wiring diagrams, design notes
+├── cplusplus/
+│   ├── src/
+│   │   └── main.cpp          # ESP32 servo test firmware
+│   ├── platformio.ini        # PlatformIO configuration
+│   ├── diagram.json          # Wokwi simulation wiring
+│   └── wokwi.toml            # Wokwi configuration
+├── LICENSE
 └── README.md
 ```
 
-## 🚀 Current status
+## 🗺️ Roadmap
 
-🔨 In development — current phase: inverse kinematics and single-leg validation.
+- [x] Basic ESP32 servo control
+- [x] Wokwi single-servo simulation
+- [ ] Single-leg mechanical prototype in PLA + SG90
+- [ ] Inverse kinematics for one leg, 3 DOF
+- [ ] Range-of-motion validation
+- [ ] PCA9685 integration
+- [ ] Design and print all 6 legs
+- [ ] Full chassis assembly
+- [ ] Gait implementation: tripod and wave
+- [ ] Migration to MG996R and ASA printed parts
+- [ ] Stability and power-consumption tuning
 
 ## 📄 License
 
-AGPL-3.0 license (see [LICENCE](./LICENSE))
+AGPL-3.0 license. See [LICENSE](./LICENSE).
