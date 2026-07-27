@@ -14,6 +14,8 @@ Current phase: **single-servo validation**.
 
 The firmware currently drives one coxa servo connected to GPIO 18. The servo sweeps smoothly between 45° and 135°, using a standard 50 Hz servo PWM signal.
 
+The motion is non-blocking: the main loop remains available for future servos, sensors, and control logic.
+
 ## 🛠️ Hardware
 
 ### 3D Printing
@@ -49,6 +51,28 @@ The firmware is a PlatformIO project located in:
 firmware/
 ```
 
+### Firmware architecture
+
+The current implementation keeps the code in `firmware/src/main.cpp` and follows a small set of SOLID principles:
+
+- `Esp32ServoOutput` is responsible for configuring and driving the ESP32 servo hardware.
+- `ServoSweep` is responsible for generating the back-and-forth movement.
+- `IAngleOutput` decouples the movement logic from the physical servo implementation, making it possible to replace the ESP32 servo with a PCA9685-based output later.
+- `ServoConfig` and `SweepConfig` keep hardware and motion parameters explicit and easy to change.
+
+`setup()` initializes the servo and starts the sweep. `loop()` calls the non-blocking `update()` method, which advances the servo when the configured interval has elapsed.
+
+### Current servo configuration
+
+| Parameter | Value |
+|-----------|-------|
+| GPIO pin | 18 |
+| PWM frequency | 50 Hz |
+| Pulse width | 1000–2000 µs |
+| Sweep range | 45°–135° |
+| Step interval | 20 ms |
+| Endpoint pause | 500 ms |
+
 Build it with:
 
 ```bash
@@ -69,7 +93,7 @@ cd firmware
 atlas/
 ├── firmware/
 │   ├── src/
-│   │   └── main.cpp          # ESP32 servo test firmware
+│   │   └── main.cpp          # ESP32 servo firmware and motion components
 │   ├── platformio.ini        # PlatformIO configuration
 │   ├── diagram.json          # Wokwi simulation wiring
 │   └── wokwi.toml            # Wokwi configuration
