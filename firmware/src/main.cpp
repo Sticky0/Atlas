@@ -13,7 +13,7 @@ constexpr ServoHardwareConfig kCoxaServoConfig{
 constexpr SweepConfig kCoxaSweepConfig{
     45,   // Start angle
     135,  // End angle
-    20,   // Delay between angle steps in milliseconds
+    5,   // Delay between angle steps in milliseconds
     500}; // Pause at each endpoint in milliseconds
 
 ArduinoClock systemClock;
