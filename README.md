@@ -53,14 +53,17 @@ firmware/
 
 ### Firmware architecture
 
-The current implementation keeps the code in `firmware/src/main.cpp` and follows a small set of SOLID principles:
+The firmware is organized into small components following SOLID principles:
 
-- `Esp32ServoOutput` is responsible for configuring and driving the ESP32 servo hardware.
-- `ServoSweep` is responsible for generating the back-and-forth movement.
-- `IAngleOutput` decouples the movement logic from the physical servo implementation, making it possible to replace the ESP32 servo with a PCA9685-based output later.
-- `ServoConfig` and `SweepConfig` keep hardware and motion parameters explicit and easy to change.
+- `Esp32ServoOutput` handles ESP32Servo hardware configuration and angle output.
+- `ServoSweep` handles non-blocking back-and-forth movement.
+- `IAngleOutput` decouples motion logic from the physical servo implementation.
+- `IClock` decouples motion timing from Arduino's global `millis()` function.
+- `ServoConfig` and `SweepConfig` keep configuration explicit and easy to change.
 
-`setup()` initializes the servo and starts the sweep. `loop()` calls the non-blocking `update()` method, which advances the servo when the configured interval has elapsed.
+`main.cpp` is responsible only for composing the components and coordinating `setup()` and `loop()`. This makes it possible to add a PCA9685 output or fake clock for testing without changing the sweep logic.
+
+For detailed firmware documentation, see [`firmware/README.md`](./firmware/README.md).
 
 ### Current servo configuration
 
@@ -92,11 +95,17 @@ cd firmware
 ```text
 atlas/
 ├── firmware/
+│   ├── include/               # Firmware interfaces and component declarations
 │   ├── src/
-│   │   └── main.cpp          # ESP32 servo firmware and motion components
-│   ├── platformio.ini        # PlatformIO configuration
-│   ├── diagram.json          # Wokwi simulation wiring
-│   └── wokwi.toml            # Wokwi configuration
+│   │   ├── main.cpp           # Application composition and lifecycle
+│   │   ├── servo_sweep.cpp     # Non-blocking sweep behavior
+│   │   ├── esp32_servo_output.cpp
+│   │   └── arduino_clock.cpp
+│   ├── README.md              # Firmware architecture and build guide
+│   ├── platformio.ini         # PlatformIO configuration
+│   ├── diagram.json           # Wokwi simulation wiring
+│   └── wokwi.toml             # Wokwi configuration
+├── cad/
 ├── LICENSE
 └── README.md
 ```
