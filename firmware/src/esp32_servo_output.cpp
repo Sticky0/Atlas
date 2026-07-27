@@ -10,10 +10,11 @@ bool Esp32ServoOutput::begin() {
   }
 
   servo_.setPeriodHertz(config_.frequencyHz);
-  attached_ = servo_.attach(
-                  config_.pin,
-                  config_.minPulseWidthUs,
-                  config_.maxPulseWidthUs) > 0;
+  servo_.attach(
+      config_.pin,
+      config_.minPulseWidthUs,
+      config_.maxPulseWidthUs);
+  attached_ = servo_.attached();
   return attached_;
 }
 
