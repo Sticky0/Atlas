@@ -113,7 +113,7 @@ atlas/
 
 - [x] Basic ESP32 servo control
 - [x] Wokwi single-servo simulation
-- [ ] Single-leg mechanical prototype in PLA + SG90
+- [X] Single-leg mechanical prototype in PLA + SG90
 - [ ] Inverse kinematics for one leg, 3 DOF
 - [ ] Range-of-motion validation
 - [ ] PCA9685 integration
