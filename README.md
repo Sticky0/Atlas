@@ -73,7 +73,7 @@ For detailed firmware documentation, see [`firmware/README.md`](./firmware/READM
 | PWM frequency | 50 Hz |
 | Pulse width | 1000–2000 µs |
 | Sweep range | 45°–135° |
-| Step interval | 20 ms |
+| Step interval | 5 ms |
 | Endpoint pause | 500 ms |
 
 Build it with:
@@ -83,12 +83,7 @@ cd firmware
 pio run
 ```
 
-If `pio` is not in your PATH on Windows, use:
-
-```bash
-cd firmware
-/c/Users/isaac/.platformio/penv/Scripts/pio.exe run
-```
+If `pio` is not in your `PATH`, use the executable inside your PlatformIO virtual environment (`~/.platformio/penv/bin/pio` on Linux/macOS, `%USERPROFILE%\.platformio\penv\Scripts\pio.exe` on Windows).
 
 ## 📁 Project structure
 

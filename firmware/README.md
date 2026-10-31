@@ -7,7 +7,7 @@ The Atlas firmware is a PlatformIO project for an ESP32. The current firmware va
 - Drives one servo from GPIO 18.
 - Uses 50 Hz PWM and 1000–2000 µs pulse widths.
 - Sweeps between 45° and 135°.
-- Moves one degree every 20 ms.
+- Moves one degree every 5 ms.
 - Pauses for 500 ms at each endpoint.
 - Uses a non-blocking update loop; no `delay()` is used for motion.
 
@@ -20,12 +20,7 @@ cd firmware
 pio run
 ```
 
-On Windows, if PlatformIO is not available in `PATH`:
-
-```bash
-cd firmware
-/c/Users/isaac/.platformio/penv/Scripts/pio.exe run
-```
+If PlatformIO is not available in `PATH`, use the executable inside `~/.platformio/penv/bin/pio` (Linux/macOS) or `%USERPROFILE%\.platformio\penv\Scripts\pio.exe` (Windows).
 
 The Wokwi simulation uses the generated files in:
 
@@ -73,7 +68,7 @@ constexpr ServoHardwareConfig kCoxaServoConfig{
     18, 50, 1000, 2000};
 
 constexpr SweepConfig kCoxaSweepConfig{
-    45, 135, 20, 500};
+    45, 135, 5, 500};
 ```
 
 `ServoSweep::begin()` validates angle limits and timing values before starting the motion.
