@@ -1,5 +1,9 @@
 # 🤖 Atlas
 
+[![CI](https://github.com/Sticky0/Atlas/actions/workflows/ci.yml/badge.svg)](https://github.com/Sticky0/Atlas/actions/workflows/ci.yml)
+![License](https://img.shields.io/badge/license-AGPL--3.0-blue)
+![Platform](https://img.shields.io/badge/platform-ESP32-red)
+
 A 3D-printed hexapod robot, designed and built from scratch: mechanics, electronics, and firmware.
 
 ## 📋 Description
@@ -76,7 +80,7 @@ For detailed firmware documentation, see [`firmware/README.md`](./firmware/READM
 | Step interval | 5 ms |
 | Endpoint pause | 500 ms |
 
-Build it with:
+Run the unit tests (no hardware needed) with `pio test -e native`. Build it with:
 
 ```bash
 cd firmware
